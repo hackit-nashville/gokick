@@ -1,8 +1,2 @@
-package lib
+// {{.command}}
 
-import "fmt"
-
-// [[[command]]] cmd
-func [[[command]]]() {
-	fmt.Println("My command is [[[command]]]!")
-}
