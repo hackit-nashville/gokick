@@ -2,12 +2,12 @@ package lib
 
 import (
 	"fmt"
-	"html/template"
-	"log"
+	"io"
 	"os"
-	"path"
+	"strings"
 
 	"github.com/markbates/pkger"
+	"text/template"
 )
 
 func init() {
@@ -31,27 +31,39 @@ func Generate(workingDir string) {
 		}
 
 		// Render Template
+		filePath = strings.Split(filePath, ":")[1]
 		fmt.Println(filePath)
-		fmt.Println(info.Sys)
-		t, err := template.ParseFiles(filePath.Path())
+
+		f, err := pkger.Open(filePath)
 		if err != nil {
-			log.Print(err)
+			return err
+		}
+		defer f.Close()
+
+		info, err = f.Stat()
+		if err != nil {
 			return err
 		}
 
-		f, err := os.Create(path.Join(workingDir, filePath.Path()))
-		if err != nil {
-			log.Println("create file: ", err)
-			return err
-		}
-		var config Cfg
-		err = t.Execute(f, config)
-		if err != nil {
-			log.Print("execute: ", err)
-			return err
+		type Inventory struct {
+			Material string
+			Count    uint
 		}
 
-		f.Close()
+		type Inventory struct {
+			Material string
+			Count    uint
+		}
+		sweaters := Inventory{"wool", 17}
+		tmpl, err := template.New("test").Parse(f.Read())
+		if err != nil { panic(err) }
+		err = tmpl.Execute(os.Stdout, sweaters)
+		if err != nil { panic(err) }
+
+		// f.Read()
+		// if _, err := io.Copy(os.Stdout, f.Read()); err != nil {
+		// 	return err
+		// }
 
 		return nil
 	})
