@@ -1,12 +1,34 @@
 package main
 
 import (
-	"go-cli-starter-template/cmd"
+	"fmt"
+	"os"
+
+	cmd "github.com/hackit-nashville/gokick/cmd"
+
+	"github.com/spf13/cobra"
 )
 
-// Version of go-cli-starter-template. Overwritten during build
-var Version = "development"
+// Version of gokick. Overwritten during build
+var version = "development"
+
+// rootCmd represents the base command when called without any subcommands
+var rootCmd = &cobra.Command{
+	Use:   "gokick",
+	Short: "generate common Golang projects",
+}
 
 func main() {
-	cmd.Execute(Version)
+	rootCmd.Version = version
+	rootCmd.SetVersionTemplate(`{{printf "%s" .version}}
+`)
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+
+// Import other commands
+func init() {
+	cmd.Import(rootCmd)
 }

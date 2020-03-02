@@ -7,14 +7,10 @@ import (
 )
 
 // Run Command ./pentaho-cli run
-var helloCmd = &cobra.Command{
+var HelloCmd = &cobra.Command{
 	Use:   "hello",
 	Short: "Say hello",
 	Run: func(cmd *cobra.Command, args []string) {
 		lib.HelloWorld()
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(helloCmd)
 }
