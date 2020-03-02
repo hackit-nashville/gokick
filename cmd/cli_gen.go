@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/hackit-nashville/gokick/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -20,6 +21,9 @@ var CliGeneratorCMD = &cobra.Command{
 		for _, dir := range commands {
 			fmt.Println(dir)
 		}
+
+		lib.Generate()
+
 	},
 }
 
