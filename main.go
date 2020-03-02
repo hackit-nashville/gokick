@@ -30,5 +30,5 @@ func main() {
 
 // Import other commands
 func init() {
-	rootCmd.AddCommand(cmd.HelloCmd)
+	cmd.Import(rootCmd)
 }

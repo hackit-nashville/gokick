@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Run Command ./pentaho-cli run
+// HelloCmd run
 var HelloCmd = &cobra.Command{
 	Use:   "hello",
 	Short: "Say hello",
