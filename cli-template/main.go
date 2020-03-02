@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	cmd "go-cli-starter-template/cmd"
+	cmd "github.com/hackit-nashville/gokick/cli-template/cmd"
 
 	"github.com/spf13/cobra"
 )

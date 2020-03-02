@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	lib "go-cli-starter-template/lib"
+	lib "github.com/hackit-nashville/gokick/cli-template/lib"
 
 	"github.com/spf13/cobra"
 )
