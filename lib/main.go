@@ -2,12 +2,10 @@ package lib
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"strings"
 
 	"github.com/markbates/pkger"
-	"text/template"
 )
 
 func init() {
@@ -45,25 +43,13 @@ func Generate(workingDir string) {
 			return err
 		}
 
-		type Inventory struct {
-			Material string
-			Count    uint
-		}
-
-		type Inventory struct {
-			Material string
-			Count    uint
-		}
-		sweaters := Inventory{"wool", 17}
-		tmpl, err := template.New("test").Parse(f.Read())
-		if err != nil { panic(err) }
-		err = tmpl.Execute(os.Stdout, sweaters)
-		if err != nil { panic(err) }
-
-		// f.Read()
-		// if _, err := io.Copy(os.Stdout, f.Read()); err != nil {
+		// var buf bytes.Buffer
+		// fmt.Fprintf(&buf, "Size: %d MB.", info.Size())
+		// s := buf.String())
+		// if _, err := io.Copy(buf, f.Read()); err != nil {
 		// 	return err
 		// }
+		// fmt.Println(buf.toString())
 
 		return nil
 	})
