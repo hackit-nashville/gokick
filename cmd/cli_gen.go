@@ -22,7 +22,7 @@ var CliGeneratorCMD = &cobra.Command{
 			fmt.Println(dir)
 		}
 
-		lib.Generate()
+		lib.Generate(directory)
 
 	},
 }
