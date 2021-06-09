@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	lib "go-cli-starter-template/lib"
+	lib "{{.Name}}/lib"
 
 	"github.com/spf13/cobra"
 )

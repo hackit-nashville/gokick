@@ -4,18 +4,18 @@ import (
 	"fmt"
 	"os"
 
-	cmd "go-cli-starter-template/cmd"
+	cmd "{{.Name}}/cmd"
 
 	"github.com/spf13/cobra"
 )
 
-// Version of go-cli-starter-template. Overwritten during build
+// Version of {{.Name}}. Overwritten during build
 var version = "development"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "go-cli-starter-template",
-	Short: "go-cli-starter-template is used as a starter cli project",
+	Use:   "{{.Name}}",
+	Short: "{{.Name}} is used as a starter cli project",
 }
 
 func main() {

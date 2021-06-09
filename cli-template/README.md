@@ -1,4 +1,4 @@
-# go-cli-starter-template
+# {{.Name}}
 
 ## Usage
 

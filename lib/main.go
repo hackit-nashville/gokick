@@ -20,12 +20,12 @@ func init() {
 	pkger.Include(templatePath)
 }
 
-type Cfg struct {
-	x string
+type TemplateConfig struct {
+	Name string
 }
 
 // Generate says hello
-func Generate(workingDir string) {
+func Generate(workingDir string, templateConfig TemplateConfig) {
 
 	err := pkger.Walk(templatePath, func(filePath string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -52,7 +52,7 @@ func Generate(workingDir string) {
 		s := string(buf.Bytes())
 		// fmt.Println(s)
 
-		var t = template.Must(template.New(filePath).Parse(s))
+		var tmpl = template.Must(template.New(filePath).Parse(s))
 		if err != nil {
 			log.Print(err)
 			return err
@@ -75,8 +75,8 @@ func Generate(workingDir string) {
 			log.Println("create file: ", err)
 			return err
 		}
-		var config Cfg
-		err = t.Execute(nf, config)
+
+		err = tmpl.Execute(nf, templateConfig)
 		if err != nil {
 			log.Print("execute: ", err)
 			return err

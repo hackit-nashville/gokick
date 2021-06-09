@@ -2,6 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+
+	"path/filepath"
 
 	"github.com/hackit-nashville/gokick/lib"
 	"github.com/spf13/cobra"
@@ -22,7 +25,19 @@ var CliGeneratorCMD = &cobra.Command{
 			fmt.Println(dir)
 		}
 
-		lib.Generate(directory)
+		templateConfig := lib.TemplateConfig{
+			Name: name,
+		}
+
+		directory, err := filepath.Abs(directory)
+		if err != nil {
+			fmt.Println("Error creating absolute path.", err)
+			os.Exit(1)
+		}
+
+		directory = filepath.Join(filepath.Clean(directory), name)
+
+		lib.Generate(directory, templateConfig)
 
 	},
 }
