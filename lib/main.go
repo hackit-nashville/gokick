@@ -1,24 +1,17 @@
 package lib
 
 import (
-	"bytes"
 	"fmt"
-	"io"
 	"log"
 	"os"
 	"path"
-	"strings"
 
 	"text/template"
 
-	"github.com/markbates/pkger"
+	"github.com/hackit-nashville/gokick/lib/cli_template"
 )
 
 const templatePath = "/cli-template"
-
-func init() {
-	pkger.Include(templatePath)
-}
 
 type TemplateConfig struct {
 	Name string
@@ -27,67 +20,41 @@ type TemplateConfig struct {
 // Generate says hello
 func Generate(workingDir string, templateConfig TemplateConfig) {
 
-	err := pkger.Walk(templatePath, func(filePath string, info os.FileInfo, err error) error {
+	// List through each asset in the CLI template
+	for _, assetName := range cli_template.AssetNames() {
+
+		// Get the contents of the asset
+		assetContent, err := cli_template.Asset(assetName)
 		if err != nil {
-			return err
+			log.Fatal(fmt.Sprintf("Unable to read %s asset: %v", assetName, err))
 		}
 
-		if info.IsDir() {
-			return nil
-		}
+		// Consider each asset to be a possible template and parse it as such.
+		var assetTemplate = template.Must(template.New(assetName).Parse(string(assetContent)))
 
-		// Render Template
-		// fmt.Println(filePath)
-		// fmt.Println(info.Name())
-		// pkger.Open(info)
-		filePath = strings.Split(filePath, ":")[1]
-		f, err := pkger.Open(filePath)
-		if err != nil {
-			return err
-		}
+		// Reconcile the generated out file and directory
+		generatedAssetPath := path.Join(workingDir, assetName)
+		generatedAssetDirectory := path.Dir(generatedAssetPath)
 
-		buf := bytes.NewBuffer(nil)
-		io.Copy(buf, f)
-		f.Close()
-		s := string(buf.Bytes())
-		// fmt.Println(s)
-
-		var tmpl = template.Must(template.New(filePath).Parse(s))
-		if err != nil {
-			log.Print(err)
-			return err
-		}
-
-		outFile := path.Join(workingDir, strings.Replace(filePath, templatePath, "", 1))
-		outDir := path.Dir(outFile)
-
-		fmt.Printf("Generating %s\n", outFile)
+		fmt.Printf("Generating %s\n", generatedAssetPath)
 
 		// Ensure dir is created
-		err = os.MkdirAll(outDir, 0700)
+		err = os.MkdirAll(generatedAssetDirectory, 0700)
 		if err != nil {
 			log.Print(err)
-			return err
 		}
 
-		nf, err := os.Create(outFile)
+		// Create the output file
+		generatedAsset, err := os.Create(generatedAssetPath)
 		if err != nil {
 			log.Println("create file: ", err)
-			return err
 		}
 
-		err = tmpl.Execute(nf, templateConfig)
+		// Execute the template and save the file
+		err = assetTemplate.Execute(generatedAsset, templateConfig)
 		if err != nil {
 			log.Print("execute: ", err)
-			return err
 		}
 
-		f.Close()
-
-		return nil
-	})
-
-	if err != nil {
-		fmt.Println(err)
 	}
 }
