@@ -31,7 +31,7 @@ func init() {
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute(version string) {
 	rootCmd.Version = version
-	rootCmd.SetVersionTemplate(`{{"{{"}}printf "%s" .version{{"}}"}}
+	rootCmd.SetVersionTemplate(`{{"{{"}}printf "%s" .Version{{"}}"}}
 `)
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
