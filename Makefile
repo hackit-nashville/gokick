@@ -11,3 +11,6 @@ bindata:
 test:
 	rm -rf ../go-test
 	go run main.go cli --directory .. --name go-test
+
+release:
+	goreleaser release --rm-dist
