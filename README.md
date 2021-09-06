@@ -1,5 +1,18 @@
 # go-cli-starter-template
 
+Generate a fresh subcommand based golang CLI.
+
+## Install
+
+### Homebrew
+```bash
+brew install chrispruitt/tap/gokick
+```
+
+### Install from source
+
+Install binary from [source](https://github.com/hackit-nashville/gokick/releases).
+
 ## Usage
 
 ```
@@ -28,8 +41,11 @@ Usage:
   gokick cli [flags]
 
 Flags:
-      --commands strings   comma delimitted list of commands to seed
   -d, --directory string   directory to init the project
   -h, --help               help for cli
   -n, --name string        name of the project (default "example-cli")
 ```
+
+## Roadmap
+
+- Ability to pass in a list of --commands to replace `hello`
